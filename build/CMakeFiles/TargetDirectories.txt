@@ -1,4 +1,0 @@
-/Users/egortujmukov/Desktop/CP_OS_2025/build/CMakeFiles/server.dir
-/Users/egortujmukov/Desktop/CP_OS_2025/build/CMakeFiles/client.dir
-/Users/egortujmukov/Desktop/CP_OS_2025/build/CMakeFiles/edit_cache.dir
-/Users/egortujmukov/Desktop/CP_OS_2025/build/CMakeFiles/rebuild_cache.dir
