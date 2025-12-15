@@ -1,11 +1,6 @@
 #pragma once
 
-#include <algorithm>
-#include <chrono>
 #include <cctype>
-#include <iomanip>
-#include <iostream>
-#include <sstream>
 #include <string>
 #include <vector>
 
@@ -42,26 +37,6 @@ inline std::vector<std::string> split(const std::string& s, char delim) {
     }
 
     return out;
-}
-
-inline std::string nowTimestamp() {
-    using clock = std::chrono::system_clock;
-    auto t = clock::to_time_t(clock::now());
-
-    std::tm tm{};
-#if defined(_WIN32)
-    localtime_s(&tm, &t);
-#else
-    localtime_r(&t, &tm);
-#endif
-
-    std::ostringstream oss;
-    oss << std::put_time(&tm, "%Y-%m-%d %H:%M:%S");
-    return oss.str();
-}
-
-inline void logInfo(const std::string& msg) {
-    std::cerr << "[" << nowTimestamp() << "] " << msg << std::endl;
 }
 
 } // namespace utils
