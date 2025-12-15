@@ -4,12 +4,16 @@ project(CP_OS_2025)
 
 set(CMAKE_CXX_STANDARD 17)
 
+link_directories(/opt/homebrew/lib)
+
 add_executable(server
     server/server.cpp
 )
 
 target_include_directories(server PRIVATE
     server
+    /opt/homebrew/include
+    common
 )
 
 target_link_libraries(server PRIVATE
@@ -23,6 +27,8 @@ add_executable(client
 
 target_include_directories(client PRIVATE
     client
+    /opt/homebrew/include
+    common
 )
 
 target_link_libraries(client PRIVATE

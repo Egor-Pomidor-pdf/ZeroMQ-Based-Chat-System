@@ -11,11 +11,6 @@
 
 namespace {
 
-void setLingerZero(void* socket) {
-    int linger = 0;
-    zmq_setsockopt(socket, ZMQ_LINGER, &linger, sizeof(linger));
-}
-
 bool sendString(void* socket, const std::string& s) {
     int rc = zmq_send(socket, s.data(), s.size(), 0);
     return rc != -1;
@@ -44,14 +39,7 @@ bool recvString(void* socket, std::string* out) {
 int main(int argc, char** argv) {
     const char* reqEndpoint = "tcp://127.0.0.1:5555";
     const char* subEndpoint = "tcp://127.0.0.1:5556";
-
-    if (argc >= 2) {
-        reqEndpoint = argv[1];
-    }
-    if (argc >= 3) {
-        subEndpoint = argv[2];
-    }
-
+    
     std::string user;
     std::cout << "Enter your name: " << std::flush;
     std::getline(std::cin, user);
@@ -80,8 +68,6 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    setLingerZero(req);
-    setLingerZero(sub);
 
     if (zmq_connect(req, reqEndpoint) != 0) {
         std::cerr << "REQ connect failed: " << zmq_strerror(zmq_errno()) << std::endl;

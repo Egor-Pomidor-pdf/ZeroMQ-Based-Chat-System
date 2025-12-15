@@ -49,13 +49,13 @@ public:
         return std::find(members.begin(), members.end(), user) != members.end();
     }
 
-    std::vector<std::string> getMembers(const std::string& group) const {
-        auto it = groups.find(group);
-        if (it == groups.end()) {
-            return {};
-        }
-        return it->second;
-    }
+    // std::vector<std::string> getMembers(const std::string& group) const {
+    //     auto it = groups.find(group);
+    //     if (it == groups.end()) {
+    //         return {};
+    //     }
+    //     return it->second;
+    // }
 
     bool groupExists(const std::string& group) const {
         return groups.find(group) != groups.end();

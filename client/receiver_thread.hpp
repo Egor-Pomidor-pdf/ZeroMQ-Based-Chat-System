@@ -72,43 +72,29 @@ inline void* receiverThread(void* arg) {
         applyPendingSubscriptions(*ctx);
 
         zmq_pollitem_t items[] = {
-            {ctx->sub_socket, 0, ZMQ_POLLIN, 0},
+            { ctx->sub_socket, 0, ZMQ_POLLIN, 0 }
         };
 
-        // timeout in ms (so we can also react to stop/subscriptions)
-        // Smaller value reduces the chance to miss messages right after join/subscribe.
-        int rc = zmq_poll(items, 1, 50);
-        if (rc == -1) {
-            continue; // interrupted
+        if (zmq_poll(items, 1, 50) <= 0) {
+            continue;
         }
 
         if (items[0].revents & ZMQ_POLLIN) {
-            std::string first;
+            std::string topic;
+            std::string body;
             bool more = false;
-            if (!recvPart(ctx->sub_socket, &first, &more)) {
+
+            if (!recvPart(ctx->sub_socket, &topic, &more) || !more) {
                 continue;
             }
 
-            if (more) {
-                std::string second;
-                bool more2 = false;
-                if (!recvPart(ctx->sub_socket, &second, &more2)) {
-                    continue;
-                }
-
-                // Expected multipart: [topic][body]
-                std::cout << "[" << first << "] " << second << std::endl;
-            } else {
-                // Fallback: single-frame message
-                std::cout << first << std::endl;
+            if (!recvPart(ctx->sub_socket, &body, &more)) {
+                continue;
             }
 
-            std::cout.flush();
+            std::cout << "[" << topic << "] " << body << std::endl;
         }
     }
-
-    // final apply, just in case
-    applyPendingSubscriptions(*ctx);
 
     return nullptr;
 }

@@ -43,9 +43,9 @@ inline Message parseMessage(const std::string& line) {
     }
 
     Message m;
-    m.type = parseType(utils::trim(parts[0]));
-    m.user = utils::trim(parts[1]);
-    m.group = utils::trim(parts[2]);
+    m.type = parseType(parts[0]);
+    m.user = parts[1];
+    m.group = parts[2];
 
     if (parts.size() >= 4) {
         std::string text = parts[3];
